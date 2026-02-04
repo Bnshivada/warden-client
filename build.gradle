@@ -1,19 +1,19 @@
 plugins {
-    id 'fabric-loom' version '1.4-SNAPSHOT'
+    id 'fabric-loom' version '1.7-SNAPSHOT' // Loom sürümünü güncelledik
     id 'maven-publish'
 }
 
-version = "1.0.0"
+version = "1.1.0" // Sürümü arttırdık
 group = "com.warden.client"
 
 repositories {
-    maven { url "https://maven.fabricmc.net/" }
     mavenCentral()
+    maven { url "https://maven.fabricmc.net/" }
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:1.20.1"
-    mappings "net.fabricmc:yarn:1.20.1+build.10:v2"
-    modImplementation "net.fabricmc:fabric-loader:0.14.22"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:0.85.0+1.20.1"
+    minecraft "com.mojang:minecraft:1.21.4" // 1.21.4 yaptık!
+    mappings "net.fabricmc:yarn:1.21.4+build.1:v2" // Mappings güncellendi
+    modImplementation "net.fabricmc:fabric-loader:0.16.9" 
+    modImplementation "net.fabricmc.fabric-api:fabric-api:0.113.0+1.21.4" // API güncellendi
 }
