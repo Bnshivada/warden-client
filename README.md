@@ -40,18 +40,10 @@ Kurulum: build/libs klasöründeki .jar dosyasını Minecraft'ın mods klasörü
 
 Kontroller:
 
-V Tuşu: ESP (Görüş Modu) Aç/Kapat.
-
-K Tuşu: KillAura Aktif Et.
-
-X Tuşu: X-Ray Modunu Başlat.
-
-B Tuşu: Boat Fly (Tekne Uçuşu) Devreye Al.
+Sağ Shift: Warden Client Hile Kontrol Menüsünü Açabilir Ve Tüm Hileleri Yönetebilirsin
 
 # ⚠️ Yasal Uyarı ve Sorumluluk
-Bu proje tamamen eğitim amaçlı (educational purposes) geliştirilmiştir. Minecraft'ın oyun içi mekaniklerinin Java ile nasıl manipüle edilebileceğini öğretmeyi hedefler.
-
-Çok Oyunculu Sunucular: Bu modun halka açık sunucularda (Hypixel, Craftrise vb.) kullanımı kesinlikle yasaklanmanıza (BAN) neden olur.
+Çok Oyunculu Sunucular: Bu modun halka açık sunucularda (Hypixel, Craftrise, DexioraMC vb.) kullanımı kesinlikle yasaklanmanıza (BAN) neden olur.
 
 Sorumluluk: Kullanımdan doğacak tüm sorumluluk kullanıcıya aittir.
 
