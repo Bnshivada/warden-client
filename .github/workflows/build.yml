@@ -17,13 +17,10 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
         with:
-          gradle-version: 8.5 # 8.1.1 yerine 8.5 yaptık!
+          gradle-version: 8.5
 
       - name: Build with Gradle
+        # BURASI KRİTİK: Gradle'a 4GB RAM kullanma izni veriyoruz
         run: gradle build --no-daemon
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: Warden-Client-Jar
-          path: build/libs/*.jar
+        env:
+          GRADLE_OPTS: -Xmx4g -XX:MaxMetaspaceSize=1g
