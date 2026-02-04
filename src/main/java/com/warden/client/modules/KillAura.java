@@ -6,7 +6,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Hand;
 
 public class KillAura extends Mod {
-    public KillAura() { super("KillAura", Category.COMBAT); }
+    public KillAura() { 
+        super("KillAura", Category.COMBAT); 
+    }
 
     @Override
     public void onTick() {
