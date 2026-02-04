@@ -33,7 +33,7 @@ Ne İşe Yarar: Bir tekneye (boat) bindiğinizde yer çekimini devre dışı bı
 
 Avantajı: Elytra'nız olmasa bile dünyayı çok hızlı bir şekilde havadan keşfetmenize olanak tanır.
 
-🛠️ Kurulum ve Kullanım
+# 🛠️ Kurulum ve Kullanım
 Gereksinimler: Minecraft 1.20.1 ve Fabric Loader.
 
 Kurulum: build/libs klasöründeki .jar dosyasını Minecraft'ın mods klasörüne sürükleyin.
