@@ -1,8 +1,29 @@
 package com.warden.client.modules;
 
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.client.MinecraftClient;
 
 public class ESP extends Mod {
-    public ESP() { super("ESP"); }
-    // Render işlemi WardenClient.java içinde yapılacak, burası sadece aç/kapa mantığı.
+    public ESP() {
+        super("ESP");
+    }
+
+    @Override
+    public void onTick() {
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client.world == null) return;
+
+        client.world.getPlayers().forEach(player -> {
+            if (player != client.player) {
+                player.setGlowing(enabled); // ESP açıksa parlasın, kapalıysa sönsün
+            }
+        });
+    }
+
+    @Override
+    public void onDisable() {
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client.world != null) {
+            client.world.getPlayers().forEach(p -> p.setGlowing(false));
+        }
+    }
 }
