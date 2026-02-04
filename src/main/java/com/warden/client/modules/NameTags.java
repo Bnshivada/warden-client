@@ -25,7 +25,7 @@ public class NameTags extends Mod {
         if (!enabled || mc.world == null || mc.player == null) return;
 
         for (Entity entity : mc.world.getEntities()) {
-            if (entity == mc.player) continue;
+            if (entity == mc.player || !entity.isAlive()) continue;
 
             String label = "";
 
@@ -38,8 +38,8 @@ public class NameTags extends Mod {
             }
 
             if (!label.isEmpty()) {
-                // 1.21.4 uyumlu konum alma (TickDelta kullanımı)
-                float tickDelta = context.tickCounter().getTickDelta(true);
+                // ÇARPI BURADAYSA: tickCounter() yerine direkt getTickDelta'yı deneyelim
+                float tickDelta = context.tickDelta(); 
                 Vec3d pos = entity.getLerpedPos(tickDelta).add(0, entity.getHeight() + 0.5, 0);
                 
                 renderTextInWorld(context, label, pos);
@@ -53,23 +53,21 @@ public class NameTags extends Mod {
         
         matrices.push();
         
-        // Kameraya göre pozisyonu ayarla
         Vec3d camPos = context.camera().getPos();
         matrices.translate(pos.x - camPos.x, pos.y - camPos.y, pos.z - camPos.z);
         
-        // Metnin her zaman oyuncuya bakmasını sağla
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-context.camera().getYaw()));
         matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(context.camera().getPitch()));
         
-        // Metni okunabilir boyuta getir (Ters dönmemesi için negatif scale)
         float scale = 0.025f;
         matrices.scale(-scale, -scale, scale);
 
         Matrix4f matrix4f = matrices.peek().getPositionMatrix();
         VertexConsumerProvider consumers = context.consumers();
         
-        // Arka plan kutusu ve metni çiz
         float xOffset = (float) (-tr.getWidth(text) / 2);
+        
+        // ÇARPI BURADAYSA: tr.draw metodunun parametrelerini 1.21.4'e göre güncelleyelim
         tr.draw(text, xOffset, 0, 0xFFFFFFFF, false, matrix4f, consumers, TextRenderer.TextLayerType.SEE_THROUGH, 0x80000000, 15728880);
 
         matrices.pop();
