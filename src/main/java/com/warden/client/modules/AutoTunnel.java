@@ -12,28 +12,24 @@ public class AutoTunnel extends Mod {
 
     @Override
     public void onTick() {
-        // nullCheck Mod.java'da tanımlı olmalı. 
-        // 1.21.4'te 'movementForward' 0'dan büyükse W tuşuna basılıyor demektir.
-        if (nullCheck() || mc.player.input.movementForward <= 0) return;
+        if (nullCheck()) return;
 
-        // Oyuncunun baktığı yönü al (Kuzey, Güney, Doğu, Batı)
+        // 1.21.4'te tuş kontrolü movementForward ile yapılır
+        // 0'dan büyükse ileri (W) basılıyor demektir
+        if (mc.player.input.movementForward <= 0) return;
+
         Direction facing = mc.player.getHorizontalFacing();
 
-        // Tam önümüzdeki 2 bloğu (Ayak ve Kafa) hedefliyoruz
         BlockPos[] positions = {
-            mc.player.getBlockPos().offset(facing),      // Ayak hizası
-            mc.player.getBlockPos().offset(facing).up()   // Kafa hizası
+            mc.player.getBlockPos().offset(facing),      // Ayak
+            mc.player.getBlockPos().offset(facing).up()   // Kafa
         };
 
         for (BlockPos pos : positions) {
-            // Eğer blok zaten havaysa veya kırılamaz bir bloksa (Bedrock vb.) atla
             if (mc.world.getBlockState(pos).isAir() || mc.world.getBlockState(pos).getHardness(mc.world, pos) < 0) continue;
 
-            // Blok kırma işlemini başlat/devam ettir
-            // getOpposite() yönü, bloğun hangi yüzüne vurduğumuzu simüle eder
+            // Blok kırma işlemi
             mc.interactionManager.updateBlockBreakingProgress(pos, facing.getOpposite());
-            
-            // El sallama animasyonu
             mc.player.swingHand(Hand.MAIN_HAND);
         }
     }
