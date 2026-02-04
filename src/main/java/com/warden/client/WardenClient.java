@@ -17,18 +17,27 @@ public class WardenClient implements ClientModInitializer {
     public static KeyBinding menuKey;
     public static List<Mod> modules = new ArrayList<>();
 
-    // Modüllerin Tanımlanması
-    public static KillAura killAura = new KillAura();
-    public static Reach reach = new Reach();
-    public static ESP esp = new ESP();
-    public static Xray xray = new Xray();
-    public static BoatFly boatFly = new BoatFly();
-    public static AutoClicker autoClicker = new AutoClicker();
-    public static AutoCritical autoCritical = new AutoCritical();
+    // Modüllerin statik tanımları (Diğer yerlerden erişim için)
+    public static KillAura killAura;
+    public static Reach reach;
+    public static ESP esp;
+    public static Xray xray;
+    public static BoatFly boatFly;
+    public static AutoClicker autoClicker;
+    public static AutoCritical autoCritical;
 
     @Override
     public void onInitializeClient() {
-        // Listeye Ekleme (Menüde Görünmesi İçin)
+        // 1. Modülleri oluştur
+        killAura = new KillAura();
+        reach = new Reach();
+        esp = new ESP();
+        xray = new Xray();
+        boatFly = new BoatFly();
+        autoClicker = new AutoClicker();
+        autoCritical = new AutoCritical();
+
+        // 2. Listeye ekle (Menüde ve Tick döngüsünde görünmeleri için)
         modules.add(killAura);
         modules.add(reach);
         modules.add(autoClicker);
@@ -37,16 +46,37 @@ public class WardenClient implements ClientModInitializer {
         modules.add(xray);
         modules.add(boatFly);
 
+        // 3. Menü tuşunu tanımla (Sağ Shift)
         menuKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.warden.menu", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_RIGHT_SHIFT, "Warden Client"
+                "key.warden.menu", 
+                InputUtil.Type.KEYSYM, 
+                GLFW.GLFW_KEY_RIGHT_SHIFT, 
+                "Warden Client"
         ));
 
+        // 4. HUD (Ekranda yazıların görünmesi) için kayıt
         HudRenderCallback.EVENT.register(HudRender::render);
 
+        // 5. ANA DÖNGÜ (Hilelerin her an çalışmasını sağlar)
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (client.player == null) return;
-            while (menuKey.wasPressed()) client.setScreen(new WardenMenuScreen());
-            for (Mod m : modules) if (m.enabled) m.onTick();
+            if (client.player == null || client.world == null) return;
+
+            // Menü açma kontrolü
+            while (menuKey.wasPressed()) {
+                client.setScreen(new WardenMenuScreen());
+            }
+
+            // Aktif olan modülleri çalıştır
+            for (Mod m : modules) {
+                if (m.enabled) {
+                    try {
+                        m.onTick();
+                    } catch (Exception e) {
+                        // Bir modül hata verirse client çökmesin diye logla
+                        System.err.println("[Warden] Modül çalışırken hata oluştu: " + m.name);
+                    }
+                }
+            }
         });
     }
 }
