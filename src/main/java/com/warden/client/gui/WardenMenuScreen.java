@@ -3,13 +3,12 @@ package com.warden.client.gui;
 import com.warden.client.WardenClient;
 import com.warden.client.modules.Mod;
 import com.warden.client.settings.NumberSetting;
-import net.minecraft.client.MinecraftClient; // Bunu ekledik
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 
 public class WardenMenuScreen extends Screen {
-    // mc değişkenini burada tanımlıyoruz
     private final MinecraftClient mc = MinecraftClient.getInstance();
 
     public WardenMenuScreen() {
@@ -18,7 +17,6 @@ public class WardenMenuScreen extends Screen {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        // Arka planı karartma (1.21.4'te renderBackground yöntemi değişti)
         context.fill(0, 0, this.width, this.height, 0x90000000);
         
         int panelX = 50;
