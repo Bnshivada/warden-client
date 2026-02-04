@@ -1,29 +1,20 @@
 package com.warden.client.modules;
 
-import net.minecraft.client.MinecraftClient;
-
 public class ESP extends Mod {
-    public ESP() {
-        super("ESP");
-    }
+    public ESP() { super("ESP", Category.RENDER); }
 
     @Override
     public void onTick() {
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client.world == null) return;
-
-        client.world.getPlayers().forEach(player -> {
-            if (player != client.player) {
-                player.setGlowing(enabled); // ESP açıksa parlasın, kapalıysa sönsün
-            }
+        if (mc.world == null) return;
+        mc.world.getPlayers().forEach(player -> {
+            if (player != mc.player) player.setGlowing(enabled);
         });
     }
 
     @Override
     public void onDisable() {
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client.world != null) {
-            client.world.getPlayers().forEach(p -> p.setGlowing(false));
+        if (mc.world != null) {
+            mc.world.getPlayers().forEach(p -> p.setGlowing(false));
         }
     }
 }
