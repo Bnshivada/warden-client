@@ -1,5 +1,11 @@
-name: Warden Build
-on: [push, pull_request]
+name: Warden Client Auto-Release
+
+on:
+  push:
+    branches: [ "main" ] # Eğer ana dalın adı 'master' ise burayı master yap
+
+permissions:
+  contents: write # Release oluşturabilmek için bu izin şart
 
 jobs:
   build:
@@ -20,7 +26,19 @@ jobs:
           gradle-version: 8.5
 
       - name: Build with Gradle
-        # BURASI KRİTİK: Gradle'a 4GB RAM kullanma izni veriyoruz
-        run: gradle build --no-daemon
+        run: gradle assemble --no-daemon
         env:
-          GRADLE_OPTS: -Xmx4g -XX:MaxMetaspaceSize=1g
+          JAVA_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=1g"
+          GRADLE_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=1g"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: Warden Client v1.0.${{ github.run_number }}
+          body: "Warden Client otomatik olarak derlendi. BoatFly ve Menu aktif!"
+          draft: false
+          prerelease: false
+          files: "**/build/libs/*.jar"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
