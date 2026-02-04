@@ -9,24 +9,23 @@ public class AutoCritical extends Mod {
 
     @Override
     public void onTick() {
-        if (!enabled || mc.player == null || mc.world == null) return;
+        if (!enabled || mc.player == null) return;
 
-        // Eğer saldırı yapıyorsak ve yerdeysek (Zıplamadan kritik atmak için)
+        // El sallanıyorsa ve oyuncu yerdeyse
         if (mc.player.handSwinging && mc.player.isOnGround()) {
-            
-            // Saldırı bekleme süresi dolmuşsa paketleri gönder (Spam yapmamak için)
             if (mc.player.getAttackCooldownProgress(0.5f) >= 0.9f) {
                 double x = mc.player.getX();
                 double y = mc.player.getY();
                 double z = mc.player.getZ();
 
-                // Karakteri milimlik zıplatıp düşürüyor gibi gösteren paketler
-                // 1. Yukarı çık
-                mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(x, y + 0.0625, z, true));
-                // 2. Aşağı in (Kritik vuruş bu düşüş anında gerçekleşir)
-                mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(x, y, z, false));
-                
-                // Not: Strict anticheat sunucularında bu ayar tespit edilebilir.
+                if (mc.getNetworkHandler() != null) {
+                    // 1.21.4 formatı: (x, y, z, onGround, horizontalCollision)
+                    // Yukarı çıkış paketi
+                    mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(x, y + 0.0625, z, true, false)); 
+                    
+                    // Aşağı iniş paketi
+                    mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(x, y, z, false, false));
+                }
             }
         }
     }
