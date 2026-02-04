@@ -6,16 +6,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 # v3'ten v4'e yükseltildi
 
       - name: Setup Java 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4 # v3'ten v4'e yükseltildi
         with:
           java-version: '17'
           distribution: 'temurin'
 
       - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v1
+        uses: gradle/actions/wrapper-validation@v3 # Güncellendi
 
       - name: Build with Gradle
         run: |
@@ -23,7 +23,7 @@ jobs:
           ./gradlew build
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4 # KRİTİK: v3 yerine v4 yapıldı
         with:
           name: Warden-Client-Jar
           path: build/libs/*.jar
