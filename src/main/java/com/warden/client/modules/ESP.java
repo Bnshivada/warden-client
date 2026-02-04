@@ -1,7 +1,9 @@
 package com.warden.client.modules;
 
 public class ESP extends Mod {
-    public ESP() { super("ESP", Category.RENDER); }
+    public ESP() { 
+        super("ESP", Category.RENDER); 
+    }
 
     @Override
     public void onTick() {
